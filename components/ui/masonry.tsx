@@ -180,7 +180,6 @@ const Masonry: React.FC<MasonryProps> = ({
   const [imagesReady, setImagesReady] = useState(false);
 
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
-  const [visibleVideos, setVisibleVideos] = useState<Set<string>>(new Set());
 
   const getInitialPosition = (item: GridItem) => {
 
@@ -298,64 +297,6 @@ const Masonry: React.FC<MasonryProps> = ({
     });
 
   }, [columns, items, width]);
-
-  // Intersection Observer for lazy loading videos
-  useEffect(() => {
-    if (!containerRef.current || grid.length === 0) return;
-
-    const observers: IntersectionObserver[] = [];
-    const videoElements: { id: string; element: HTMLVideoElement }[] = [];
-
-    // Collect all video elements
-    Object.keys(videoRefs.current).forEach((id) => {
-      const video = videoRefs.current[id];
-      if (video) {
-        videoElements.push({ id, element: video });
-      }
-    });
-
-    // Create observer for each video
-    videoElements.forEach(({ id, element }) => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // Video is visible - start loading and playing
-              setVisibleVideos((prev) => {
-                const newSet = new Set(prev);
-                newSet.add(id);
-                return newSet;
-              });
-              
-              // Load video if not already loaded
-              if (element.readyState === 0) {
-                element.load();
-              }
-              
-              // Play video
-              element.play().catch(() => {
-                // Silently handle play errors (autoplay restrictions)
-              });
-            } else {
-              // Video is not visible - pause to save bandwidth
-              element.pause();
-            }
-          });
-        },
-        {
-          rootMargin: '100px', // Start loading 100px before entering viewport
-          threshold: 0.01 // Trigger when 1% of video is visible
-        }
-      );
-
-      observer.observe(element);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((obs) => obs.disconnect());
-    };
-  }, [grid]);
 
   const hasMounted = useRef(false);
 
@@ -625,11 +566,15 @@ const Masonry: React.FC<MasonryProps> = ({
 
                       videoRefs.current[item.id] = el;
 
+                      // Autoplay video by default
+
+                      el.play().catch(() => {});
+
                     }
 
                   }}
 
-                  src={visibleVideos.has(item.id) ? item.videoUrl : undefined}
+                  src={item.videoUrl}
 
                   className="w-full h-full object-cover"
 
@@ -639,9 +584,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
                   playsInline
 
-                  preload="metadata"
-
-                  data-video-id={item.id}
+                  autoPlay
 
                 />
 
