@@ -54,6 +54,18 @@ interface LiquidEtherWebGL {
 
 const defaultColors = ['#5227FF', '#FF9FFC', '#B19EEF'];
 
+// Helper function to check WebGL availability
+function isWebGLAvailable(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    return !!gl;
+  } catch (e) {
+    return false;
+  }
+}
+
 export default function LiquidEther({
   mouseForce = 20,
   cursorSize = 100,
@@ -84,6 +96,12 @@ export default function LiquidEther({
   const resizeRafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    // Check if WebGL is available before initializing
+    if (!isWebGLAvailable()) {
+      console.warn('WebGL is not available. LiquidEther will not render.');
+      return;
+    }
+
     if (!mountRef.current) return;
 
     function makePaletteTexture(stops: string[]): THREE.DataTexture {
@@ -134,18 +152,23 @@ export default function LiquidEther({
         this.container = container;
         this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
         this.resize();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        // Always transparent
-        this.renderer.autoClear = false;
-        this.renderer.setClearColor(new THREE.Color(0x000000), 0);
-        this.renderer.setPixelRatio(this.pixelRatio);
-        this.renderer.setSize(this.width, this.height);
-        const el = this.renderer.domElement;
-        el.style.width = '100%';
-        el.style.height = '100%';
-        el.style.display = 'block';
-        this.clock = new THREE.Clock();
-        this.clock.start();
+        try {
+          this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+          // Always transparent
+          this.renderer.autoClear = false;
+          this.renderer.setClearColor(new THREE.Color(0x000000), 0);
+          this.renderer.setPixelRatio(this.pixelRatio);
+          this.renderer.setSize(this.width, this.height);
+          const el = this.renderer.domElement;
+          el.style.width = '100%';
+          el.style.height = '100%';
+          el.style.display = 'block';
+          this.clock = new THREE.Clock();
+          this.clock.start();
+        } catch (error) {
+          console.error('Failed to initialize WebGL renderer:', error);
+          this.renderer = null;
+        }
       }
       resize() {
         if (!this.container) return;
@@ -1010,36 +1033,48 @@ export default function LiquidEther({
       private _onVisibility?: () => void;
       constructor(props: any) {
         this.props = props;
-        Common.init(props.$wrapper);
-        Mouse.init(props.$wrapper);
-        Mouse.autoIntensity = props.autoIntensity;
-        Mouse.takeoverDuration = props.takeoverDuration;
-        Mouse.onInteract = () => {
-          this.lastUserInteraction = performance.now();
-          if (this.autoDriver) this.autoDriver.forceStop();
-        };
-        this.autoDriver = new AutoDriver(Mouse, this as any, {
-          enabled: props.autoDemo,
-          speed: props.autoSpeed,
-          resumeDelay: props.autoResumeDelay,
-          rampDuration: props.autoRampDuration
-        });
-        this.init();
-        window.addEventListener('resize', this._resize);
-        this._onVisibility = () => {
-          const hidden = document.hidden;
-          if (hidden) {
-            this.pause();
-          } else if (isVisibleRef.current) {
-            this.start();
+        try {
+          Common.init(props.$wrapper);
+          if (!Common.renderer) {
+            console.error('WebGL renderer could not be created');
+            return;
           }
-        };
-        document.addEventListener('visibilitychange', this._onVisibility);
+          Mouse.init(props.$wrapper);
+          Mouse.autoIntensity = props.autoIntensity;
+          Mouse.takeoverDuration = props.takeoverDuration;
+          Mouse.onInteract = () => {
+            this.lastUserInteraction = performance.now();
+            if (this.autoDriver) this.autoDriver.forceStop();
+          };
+          this.autoDriver = new AutoDriver(Mouse, this as any, {
+            enabled: props.autoDemo,
+            speed: props.autoSpeed,
+            resumeDelay: props.autoResumeDelay,
+            rampDuration: props.autoRampDuration
+          });
+          this.init();
+          window.addEventListener('resize', this._resize);
+          this._onVisibility = () => {
+            const hidden = document.hidden;
+            if (hidden) {
+              this.pause();
+            } else if (isVisibleRef.current) {
+              this.start();
+            }
+          };
+          document.addEventListener('visibilitychange', this._onVisibility);
+        } catch (error) {
+          console.error('Failed to initialize WebGLManager:', error);
+        }
       }
       init() {
         if (!Common.renderer) return;
-        this.props.$wrapper.prepend(Common.renderer.domElement);
-        this.output = new Output();
+        try {
+          this.props.$wrapper.prepend(Common.renderer.domElement);
+          this.output = new Output();
+        } catch (error) {
+          console.error('Failed to initialize output:', error);
+        }
       }
       resize() {
         Common.resize();
@@ -1099,6 +1134,12 @@ export default function LiquidEther({
     });
     webglRef.current = webgl;
 
+    // Only proceed if WebGL was initialized successfully
+    if (!webgl.output) {
+      console.warn('WebGL output not initialized. LiquidEther will not render.');
+      return;
+    }
+
     const applyOptionsFromProps = () => {
       if (!webglRef.current) return;
       const sim = webglRef.current.output?.simulation;
@@ -1119,7 +1160,11 @@ export default function LiquidEther({
       if (resolution !== prevRes) sim.resize();
     };
     applyOptionsFromProps();
-    webgl.start();
+    
+    // Only start if output was initialized successfully
+    if (webgl.output) {
+      webgl.start();
+    }
 
     const io = new IntersectionObserver(
       entries => {

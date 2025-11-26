@@ -242,12 +242,12 @@ export default function Home() {
       {/* Hero Section */}
       <section id="home" className="relative h-auto md:min-h-screen w-full overflow-hidden">
         {/* Hero Content */}
-        <div className="relative z-10 flex h-auto md:min-h-screen items-start md:items-center justify-start px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 pt-20 sm:pt-24 md:pt-0 pb-12 md:pb-0">
+        <div className="relative z-10 flex h-auto md:min-h-screen items-start md:items-center justify-start px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 pt-40 sm:pt-44 md:pt-0 pb-12 md:pb-0">
         <div className="w-full max-w-7xl">
           {/* Main Hero Text */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-4 sm:mb-6 md:mb-8 font-sans">
-            <div className="block">BRINGING</div>
-            <div className="block">THE CREATIVITY</div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-10 sm:mb-12 md:mb-8 font-sans">
+            <div className="block mb-3 sm:mb-4">BRINGING</div>
+            <div className="block mb-3 sm:mb-4">THE CREATIVITY</div>
             {/* Desktop: Video inline with ONCHAIN */}
             <div className="hidden md:flex items-center gap-4 md:gap-6 lg:gap-8 whitespace-nowrap">
               <span className="block">ONCHAIN</span>
@@ -257,6 +257,7 @@ export default function Home() {
                   loop
                   muted
                   playsInline
+                  preload="auto"
                   className="w-full h-full object-cover rounded-lg"
                 >
                   <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
@@ -268,13 +269,14 @@ export default function Home() {
           </h1>
 
           {/* Mobile: Video below hero text */}
-          <div className="md:hidden mt-4 sm:mt-6 mb-4 sm:mb-6 w-full">
+          <div className="md:hidden mt-10 sm:mt-12 mb-10 sm:mb-12 w-full">
             <div className="relative w-full aspect-video">
               <video
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
                 className="w-full h-full object-cover rounded-lg"
               >
                 <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
@@ -283,7 +285,7 @@ export default function Home() {
           </div>
 
           {/* Mobile: Subtitle Text below video */}
-          <div className="md:hidden mb-6 sm:mb-8">
+          <div className="md:hidden mb-10 sm:mb-12">
             <p className="text-md sm:text-sm text-white/70 font-light leading-relaxed font-sans text-left">
               We specialize in blockchain technology,
               decentralized applications, and innovative
