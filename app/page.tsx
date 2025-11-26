@@ -5,11 +5,30 @@ import { AnimatePresence, motion } from 'framer-motion';
 import LiquidEther from '@/components/LiquidEther';
 import { LetterSwapPingPong } from '@/components/ui/letter-swap';
 import { ServicesShowcase } from '@/components/ui/services-showcase';
+import { WorksSection } from '@/components/ui/works-section';
 import Preloader from '@/components/Preloader';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
+
+  // Supabase video URL
+  const videoUrl = 'https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4';
+
+  // Fixed random order (shuffled once, stays the same)
+  const works = [
+    // Landscape videos (wider, shorter) - 6 items
+    { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '50+', info: 'Blockchain solutions delivered' }, height: 200 },
+    { id: 'video-6', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'video-1', type: 'video' as const, cardType: 'portrait' as const, videoUrl: videoUrl, height: 400 },
+    { id: 'video-7', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'video-2', type: 'video' as const, cardType: 'portrait' as const, videoUrl: videoUrl, height: 400 },
+    { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Clients', value: '100+', info: 'Global brands trust us' }, height: 200 },
+    { id: 'video-9', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'video-11', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'video-10', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'stat-3', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Years', value: '5+', info: 'Leading web3 innovation' }, height: 200 },
+  ];
 
   const services = [
     { title: 'Blockchain Development', number: '01' },
@@ -240,7 +259,7 @@ export default function Home() {
                   playsInline
                   className="w-full h-full object-cover rounded-lg"
                 >
-                  <source src="/IMG_0330-1.mp4" type="video/mp4" />
+                  <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
                 </video>
               </div>
             </div>
@@ -258,7 +277,7 @@ export default function Home() {
                 playsInline
                 className="w-full h-full object-cover rounded-lg"
               >
-                <source src="/IMG_0330-1.mp4" type="video/mp4" />
+                <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -288,10 +307,18 @@ export default function Home() {
 
       {/* What We Do Section */}
       <section
-        id="works"
+        id="services"
         className="relative w-full bg-black"
       >
         <ServicesShowcase services={services} />
+      </section>
+
+      {/* Works Section */}
+      <section
+        id="works"
+        className="relative w-full bg-black"
+      >
+        <WorksSection works={works} />
       </section>
           </motion.div>
         )}

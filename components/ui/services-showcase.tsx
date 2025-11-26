@@ -27,10 +27,10 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
   ]
 
   return (
-    <div className="w-full min-h-screen py-12 sm:py-16 md:py-20 lg:py-32 overflow-x-hidden">
+    <div className="w-full min-h-screen py-12 sm:py-16 md:py-20 lg:py-32 overflow-x-hidden ">
       <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-start">
         {/* Left Side - Title and Image */}
-        <div className="px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 lg:sticky lg:top-32 order-1">
+        <div className="px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 lg:sticky lg:top-0 order-1 self-start">
           <div className="flex flex-col gap-6 sm:gap-8 lg:gap-12">
             {/* Title */}
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white font-sans tracking-tight uppercase">
@@ -65,7 +65,7 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
 
         {/* Right Side - Services List */}
         <div className="px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 mt-6 sm:mt-8 md:mt-10 lg:mt-16 order-2 overflow-x-hidden">
-          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 lg:gap-6 overflow-hidden">
             {services.map((service, index) => (
               <motion.button
                 key={service.title}
