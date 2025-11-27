@@ -357,13 +357,18 @@ export default function Home() {
             {/* Desktop: Video inline with ONCHAIN */}
             <div className="hidden md:flex items-center gap-4 md:gap-6 lg:gap-8 whitespace-nowrap">
               <span className="block">ONCHAIN</span>
-              <div className="relative w-32 h-20 md:w-48 md:h-28 lg:w-64 lg:h-40 shrink-0">
+              <div className="relative w-32 h-20 md:w-48 md:h-28 lg:w-64 lg:h-40 shrink-0 group">
                 <video
-                  autoPlay
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   className="w-full h-full object-cover rounded-lg"
+                  onMouseEnter={(e) => e.currentTarget.play()}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.pause();
+                    e.currentTarget.currentTime = 0;
+                  }}
                 >
                   <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
                 </video>
@@ -377,11 +382,16 @@ export default function Home() {
           <div className="md:hidden mt-8 sm:mt-10 mb-8 sm:mb-10 w-full">
             <div className="relative w-full aspect-video">
               <video
-                autoPlay
                 loop
                 muted
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-cover rounded-lg"
+                onTouchStart={(e) => e.currentTarget.play()}
+                onTouchEnd={(e) => {
+                  e.currentTarget.pause();
+                  e.currentTarget.currentTime = 0;
+                }}
               >
                 <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
               </video>

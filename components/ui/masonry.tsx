@@ -447,6 +447,12 @@ const Masonry: React.FC<MasonryProps> = ({
 
     }
 
+    // Play video on hover
+    const video = videoRefs.current[id];
+    if (video) {
+      video.play().catch(() => {});
+    }
+
   };
 
   const handleMouseLeave = (id: string, element: HTMLElement) => {
@@ -471,6 +477,13 @@ const Masonry: React.FC<MasonryProps> = ({
 
       if (overlay) gsap.to(overlay, { opacity: 0, duration: 0.3 });
 
+    }
+
+    // Pause video on mouse leave
+    const video = videoRefs.current[id];
+    if (video) {
+      video.pause();
+      video.currentTime = 0; // Reset to beginning
     }
 
   };
@@ -566,10 +579,6 @@ const Masonry: React.FC<MasonryProps> = ({
 
                       videoRefs.current[item.id] = el;
 
-                      // Autoplay video by default
-
-                      el.play().catch(() => {});
-
                     }
 
                   }}
@@ -584,7 +593,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
                   playsInline
 
-                  autoPlay
+                  preload="metadata"
 
                 />
 

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 
 interface Service {
   title: string
@@ -49,10 +50,13 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
                     transition={{ duration: 0.1, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0"
                   >
-                    <img
+                    <Image
                       src={serviceImages[activeIndex] || serviceImages[0]}
-                      alt={services[activeIndex]?.title}
-                      className="w-full h-full object-cover"
+                      alt={services[activeIndex]?.title || 'Service image'}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 500px, 700px"
+                      priority={activeIndex === 0}
                     />
                     {/* Overlay gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
