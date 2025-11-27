@@ -18,12 +18,15 @@ const nextConfig: NextConfig = {
   
   // Compression
   compress: true,
-
   
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['framer-motion', 'lodash'],
+    optimizeCss: true,
   },
+  
+  // Performance optimizations
+  poweredByHeader: false,
   
   // Headers for caching and performance
   async headers() {

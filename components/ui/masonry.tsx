@@ -361,7 +361,11 @@ const Masonry: React.FC<MasonryProps> = ({
 
             ease: 'power3.out',
 
-            delay: index * stagger
+            delay: index * stagger,
+
+            force3D: true,
+
+            transformOrigin: 'center center'
 
           }
 
@@ -447,12 +451,6 @@ const Masonry: React.FC<MasonryProps> = ({
 
     }
 
-    // Play video on hover
-    const video = videoRefs.current[id];
-    if (video) {
-      video.play().catch(() => {});
-    }
-
   };
 
   const handleMouseLeave = (id: string, element: HTMLElement) => {
@@ -477,13 +475,6 @@ const Masonry: React.FC<MasonryProps> = ({
 
       if (overlay) gsap.to(overlay, { opacity: 0, duration: 0.3 });
 
-    }
-
-    // Pause video on mouse leave
-    const video = videoRefs.current[id];
-    if (video) {
-      video.pause();
-      video.currentTime = 0; // Reset to beginning
     }
 
   };
@@ -516,7 +507,13 @@ const Masonry: React.FC<MasonryProps> = ({
 
             className="relative w-full h-full bg-cover bg-center rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300 shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)]"
 
-            style={item.img ? { backgroundImage: `url(${item.img})` } : {}}
+            style={{
+              ...(item.img ? { backgroundImage: `url(${item.img})` } : {}),
+              transform: 'translateZ(0)',
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+            }}
 
           >
 
@@ -579,6 +576,10 @@ const Masonry: React.FC<MasonryProps> = ({
 
                       videoRefs.current[item.id] = el;
 
+                      // Autoplay video by default
+
+                      el.play().catch(() => {});
+
                     }
 
                   }}
@@ -593,7 +594,19 @@ const Masonry: React.FC<MasonryProps> = ({
 
                   playsInline
 
-                  preload="metadata"
+                  autoPlay
+
+                  style={{
+
+                    transform: 'translateZ(0)',
+
+                    willChange: 'auto',
+
+                    backfaceVisibility: 'hidden',
+
+                    WebkitBackfaceVisibility: 'hidden',
+
+                  }}
 
                 />
 

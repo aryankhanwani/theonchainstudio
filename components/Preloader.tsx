@@ -57,7 +57,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       initial={{ scale: 1, opacity: 1 }}
       exit={{ scale: 1.1, opacity: 0 }}
       transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-      className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+      }}
     >
       <div className="text-center flex-1 flex items-center justify-center">
         <AnimatePresence mode="wait">

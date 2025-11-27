@@ -51,16 +51,18 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
+    // Initialize Lenis smooth scroll with optimized settings
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.9,
       touchMultiplier: 2,
       infinite: false,
+      syncTouch: true,
+      syncTouchLerp: 0.1,
     });
 
     lenisRef.current = lenis;
@@ -123,25 +125,31 @@ export default function Home() {
               delay: 0.1
             }}
             className="relative w-full bg-black overflow-x-hidden"
+            style={{
+              transform: 'translateZ(0)',
+              willChange: 'scroll-position',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+            }}
           >
       {/* LiquidEther Background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
         <LiquidEther
           colors={['#FFFFFF', '#FFFFFF', '#FFFFFF']}
-          mouseForce={20}
-          cursorSize={100}
+          mouseForce={18}
+          cursorSize={90}
           isViscous={false}
           viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
+          iterationsViscous={24}
+          iterationsPoisson={24}
+          resolution={0.4}
           isBounce={false}
           autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
+          autoSpeed={0.4}
+          autoIntensity={2.0}
+          takeoverDuration={0.2}
           autoResumeDelay={3000}
-          autoRampDuration={0.6}
+          autoRampDuration={0.5}
         />
       </div>
 
@@ -364,6 +372,12 @@ export default function Home() {
                   muted
                   playsInline
                   className="w-full h-full object-cover rounded-lg"
+                  style={{
+                    transform: 'translateZ(0)',
+                    willChange: 'auto',
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                  }}
                 >
                   <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
                 </video>
@@ -382,6 +396,12 @@ export default function Home() {
                 muted
                 playsInline
                 className="w-full h-full object-cover rounded-lg"
+                style={{
+                  transform: 'translateZ(0)',
+                  willChange: 'auto',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                }}
               >
                 <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
               </video>
