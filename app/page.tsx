@@ -1,16 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import Lenis from 'lenis';
 import LiquidEther from '@/components/LiquidEther';
 import { LetterSwapPingPong } from '@/components/ui/letter-swap';
 import { ServicesShowcase } from '@/components/ui/services-showcase';
 import { WorksSection } from '@/components/ui/works-section';
+import { AnimatedTextSection } from '@/components/ui/animated-text-section';
 import Preloader from '@/components/Preloader';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
+  const lenisRef = useRef<Lenis | null>(null);
 
   // Supabase video URL
   const videoUrl = 'https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4';
@@ -40,10 +43,54 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    // Smooth scroll behavior
-    document.documentElement.style.scrollBehavior = 'smooth';
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    lenisRef.current = lenis;
+
+    // Animation frame loop
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Handle anchor link clicks
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a[href^="#"]');
+      
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        if (href && href !== '#') {
+          e.preventDefault();
+          const targetElement = document.querySelector(href) as HTMLElement;
+          if (targetElement) {
+            lenis.scrollTo(targetElement, {
+              offset: 0,
+              duration: 1.5,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
+          }
+        }
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+
     return () => {
-      document.documentElement.style.scrollBehavior = 'auto';
+      lenis.destroy();
+      document.removeEventListener('click', handleAnchorClick);
     };
   }, []);
 
@@ -138,21 +185,61 @@ export default function Home() {
         <nav className="flex flex-col items-center justify-center h-full gap-8">
           <a
             href="#works"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen(false);
+              // Small delay to let menu close before scroll
+              setTimeout(() => {
+                const targetElement = document.querySelector('#works') as HTMLElement;
+                if (targetElement && lenisRef.current) {
+                  lenisRef.current.scrollTo(targetElement, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                  });
+                }
+              }, 100);
+            }}
             className="text-2xl font-medium text-white transition-opacity hover:opacity-70 font-sans uppercase tracking-wider"
           >
             WORKS
           </a>
           <a
             href="#about"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen(false);
+              setTimeout(() => {
+                const targetElement = document.querySelector('#about') as HTMLElement;
+                if (targetElement && lenisRef.current) {
+                  lenisRef.current.scrollTo(targetElement, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                  });
+                }
+              }, 100);
+            }}
             className="text-2xl font-medium text-white transition-opacity hover:opacity-70 font-sans uppercase tracking-wider"
           >
             ABOUT
           </a>
           <a
             href="#start-project"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen(false);
+              setTimeout(() => {
+                const targetElement = document.querySelector('#start-project') as HTMLElement;
+                if (targetElement && lenisRef.current) {
+                  lenisRef.current.scrollTo(targetElement, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                  });
+                }
+              }, 100);
+            }}
             className="text-2xl font-medium text-white transition-opacity hover:opacity-70 font-sans uppercase tracking-wider inline-flex items-center gap-3"
           >
             START A PROJECT
@@ -319,6 +406,16 @@ export default function Home() {
         className="relative w-full bg-black"
       >
         <WorksSection works={works} />
+      </section>
+
+      {/* Animated Text Section */}
+      <section
+        id="about"
+        className="relative w-full bg-black"
+      >
+        <AnimatedTextSection 
+          text="We are a creative studio specializing in blockchain technology and web3 innovation. Our team combines technical expertise with artistic vision to build transformative digital experiences that push the boundaries of what's possible in the decentralized web."
+        />
       </section>
           </motion.div>
         )}
