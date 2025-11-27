@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "The OnChain Studio",
   description: "A multi-awarded digital studio crafting immersive & interactive experiences for global brands since 2006.",
+  icons: {
+    icon: '/IMG_6276.PNG',
+    shortcut: '/IMG_6276.PNG',
+    apple: '/IMG_6276.PNG',
+  },
 };
 
 export default function RootLayout({
