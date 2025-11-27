@@ -19,14 +19,14 @@ export default function Home() {
   const works = [
     // Landscape videos (wider, shorter) - 6 items
     { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '50+', info: 'Blockchain solutions delivered' }, height: 200 },
-    { id: 'video-6', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
-    { id: 'video-1', type: 'video' as const, cardType: 'portrait' as const, videoUrl: videoUrl, height: 400 },
-    { id: 'video-7', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
-    { id: 'video-2', type: 'video' as const, cardType: 'portrait' as const, videoUrl: videoUrl, height: 400 },
+    { id: 'video-1', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'image-1', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
+    { id: 'image-2', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
+    { id: 'image-3', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
     { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Clients', value: '100+', info: 'Global brands trust us' }, height: 200 },
-    { id: 'video-9', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
-    { id: 'video-11', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
-    { id: 'video-10', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'image-4', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
+    { id: 'image-5', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
     { id: 'stat-3', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Years', value: '5+', info: 'Leading web3 innovation' }, height: 200 },
   ];
 

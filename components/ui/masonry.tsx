@@ -87,7 +87,7 @@ interface Item {
 
   height: number;
 
-  type?: 'video' | 'stat';
+  type?: 'video' | 'stat' | 'image';
 
   cardType?: 'portrait' | 'landscape' | 'square';
 

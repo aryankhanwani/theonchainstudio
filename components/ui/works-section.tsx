@@ -5,9 +5,10 @@ import Masonry from "./masonry"
 
 interface Work {
   id: string
-  type: 'video' | 'stat'
+  type: 'video' | 'stat' | 'image'
   cardType?: 'portrait' | 'landscape' | 'square'
   videoUrl?: string
+  img?: string
   height: number
   statData?: {
     label: string
@@ -27,6 +28,7 @@ const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
   const masonryItems = works.map(work => ({
     id: work.id,
     videoUrl: work.videoUrl,
+    img: work.img,
     height: work.height,
     type: work.type,
     cardType: work.cardType,
