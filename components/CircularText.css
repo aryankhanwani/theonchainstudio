@@ -1,0 +1,30 @@
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 300px;
+  position: relative;
+  height: 300px;
+  font-weight: bold;
+  color: #fff;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 28px;
+  font-weight: 700;
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: inherit;
+}

@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('/coolvetica/Coolvetica Rg Cond.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-coolvetica {
+  font-family: 'Coolvetica', sans-serif;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -133,5 +145,37 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Service title responsive sizing - optimized for all screen sizes */
+  /* Mobile and tablet use Tailwind classes (text-3xl to text-5xl) */
+  /* Desktop sizes get custom sizing via media queries */
+
+  /* Desktop (1024px+) - lg breakpoint */
+  @media (min-width: 1024px) {
+    .service-title {
+      font-size: 3.75rem; /* text-6xl - 60px */
+    }
+  }
+
+  /* Large desktop (1280px+) - xl breakpoint */
+  @media (min-width: 1280px) {
+    .service-title {
+      font-size: 4.5rem; /* text-7xl - 72px */
+    }
+  }
+
+  /* 2xl breakpoint (1536px) to 1919px - keep at text-6xl */
+  @media (min-width: 1536px) and (max-width: 1919px) {
+    .service-title {
+      font-size: 3.75rem; /* text-6xl - 60px */
+    }
+  }
+
+  /* Very large screens (1920px+) - back to larger size */
+  @media (min-width: 1920px) {
+    .service-title {
+      font-size: 6rem; /* text-8xl - 96px */
+    }
   }
 }

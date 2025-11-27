@@ -8,7 +8,9 @@ import { LetterSwapPingPong } from '@/components/ui/letter-swap';
 import { ServicesShowcase } from '@/components/ui/services-showcase';
 import { WorksSection } from '@/components/ui/works-section';
 import { AnimatedTextSection } from '@/components/ui/animated-text-section';
+import { BookCallSection } from '@/components/ui/book-call-section';
 import Preloader from '@/components/Preloader';
+import CircularText from '@/components/CircularText';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,12 +36,18 @@ export default function Home() {
   ];
 
   const services = [
-    { title: 'Blockchain Development', number: '01' },
-    { title: 'Web3 Applications', number: '02' },
-    { title: 'NFT Solutions', number: '03' },
-    { title: 'DeFi Platforms', number: '04' },
-    { title: 'Smart Contract Audits', number: '05' },
-    { title: 'Web3 Consulting', number: '06' },
+    { title: 'STRATEGIC', number: '01' },
+    { title: 'CONTENT & SOCIAL', number: '02' },
+    { title: 'Community Growth', number: '03' },
+    { title: 'EVENTS', number: '04' },
+    { title: 'PARTNERSHIPS & KOLS', number: '05' },
+    { title: 'BRANDING & CREATIVE', number: '06' },
+    { title: 'DEVELOPER RELATIONS', number: '07' },
+    { title: 'PR', number: '08' },
+    { title: 'Short-Form Video Content', number: '09' },
+    { title: 'TOKENOMICS CONSULTING', number: '10' },
+    { title: 'GROWTH MARKETING', number: '11' },
+    { title: 'ANALYTICS & INSIGHTS', number: '12' },
   ];
 
   useEffect(() => {
@@ -141,13 +149,13 @@ export default function Home() {
       <div className="absolute top-6 sm:top-8 md:top-16 left-5 sm:left-6 md:left-8 lg:left-16 xl:left-24 z-20">
         <a 
           href="/" 
-          className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white tracking-wider font-sans cursor-pointer lowercase inline-block"
+          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-[0.25em] font-coolvetica uppercase cursor-pointer inline-block"
         >
           <LetterSwapPingPong
-            label="theonchainstudio."
+            label="ONCHAIN STUDIO"
             reverse={false}
             staggerFrom="center"
-            className="lowercase"
+            className="font-coolvetica tracking-[0.15em] uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl"
           />
         </a>
       </div>
@@ -225,20 +233,25 @@ export default function Home() {
             ABOUT
           </a>
           <a
-            href="#start-project"
+            href={process.env.NEXT_PUBLIC_CALENDLY_URL || "#start-project"}
             onClick={(e) => {
-              e.preventDefault();
-              setIsMenuOpen(false);
-              setTimeout(() => {
-                const targetElement = document.querySelector('#start-project') as HTMLElement;
-                if (targetElement && lenisRef.current) {
-                  lenisRef.current.scrollTo(targetElement, {
-                    offset: 0,
-                    duration: 1.5,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                  });
-                }
-              }, 100);
+              if (process.env.NEXT_PUBLIC_CALENDLY_URL) {
+                window.open(process.env.NEXT_PUBLIC_CALENDLY_URL, '_blank');
+                setIsMenuOpen(false);
+              } else {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                setTimeout(() => {
+                  const targetElement = document.querySelector('#start-project') as HTMLElement;
+                  if (targetElement && lenisRef.current) {
+                    lenisRef.current.scrollTo(targetElement, {
+                      offset: 0,
+                      duration: 1.5,
+                      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    });
+                  }
+                }, 100);
+              }
             }}
             className="text-2xl font-medium text-white transition-opacity hover:opacity-70 font-sans uppercase tracking-wider inline-flex items-center gap-3"
           >
@@ -292,7 +305,13 @@ export default function Home() {
           </li>
           <li>
             <a
-              href="#start-project"
+              href={process.env.NEXT_PUBLIC_CALENDLY_URL || "#start-project"}
+              onClick={(e) => {
+                if (process.env.NEXT_PUBLIC_CALENDLY_URL) {
+                  e.preventDefault();
+                  window.open(process.env.NEXT_PUBLIC_CALENDLY_URL, '_blank');
+                }
+              }}
               className="group text-sm md:text-base lg:text-lg font-medium text-white transition-all duration-500 ease-out font-sans uppercase tracking-wider cursor-pointer inline-flex items-center gap-2 relative"
             >
               <span className="relative z-10 transition-transform duration-500 ease-out group-hover:translate-x-[-4px]">
@@ -379,6 +398,16 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Desktop: CircularText - positioned at bottom right */}
+          <div className="hidden md:block absolute bottom-8 lg:bottom-12 xl:bottom-16 right-8 lg:right-16 xl:right-24 z-10">
+            <CircularText
+              text="WEB3 * CREATIVE * BLOCKCHAIN * INNOVATION * "
+              onHover="goBonkers"
+              spinDuration={8}
+              className="text-white"
+            />
+          </div>
+
           {/* Desktop: Subtitle Text - positioned below navigation */}
           <div className="hidden md:block absolute top-48 lg:top-56 xl:top-64 right-8 lg:right-16 xl:right-24 text-right max-w-md lg:max-w-lg xl:max-w-xl">
             <p className="text-base lg:text-lg xl:text-xl 2xl:text-2xl text-white/70 font-light leading-relaxed font-sans">
@@ -416,6 +445,14 @@ export default function Home() {
         <AnimatedTextSection 
           text="We are a creative studio specializing in blockchain technology and web3 innovation. Our team combines technical expertise with artistic vision to build transformative digital experiences that push the boundaries of what's possible in the decentralized web."
         />
+      </section>
+
+      {/* Book a Call Section */}
+      <section
+        id="start-project"
+        className="relative w-full"
+      >
+        <BookCallSection />
       </section>
           </motion.div>
         )}

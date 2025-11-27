@@ -80,7 +80,7 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
                 transition={{ duration: 0.1 }}
               >
                 <h3
-                  className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-light font-sans tracking-tight transition-all duration-50 break-words ${
+                  className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-6xl service-title font-light font-sans tracking-tight transition-all duration-50 break-words ${
                     activeIndex === index
                       ? 'text-white'
                       : 'text-white/40'
