@@ -10,6 +10,7 @@ import { WorksSection } from '@/components/ui/works-section';
 import { AboutSection } from '@/components/ui/about-section';
 import { BookCallSection } from '@/components/ui/book-call-section';
 import Preloader from '@/components/Preloader';
+import CircularText from '@/components/CircularText';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -386,7 +387,12 @@ export default function Home() {
       {/* Hero Section */}
       <section id="home" className="relative h-auto md:min-h-screen w-full overflow-hidden z-10">
         <style dangerouslySetInnerHTML={{__html: `
-          @media (min-width: 1920px) {
+          @media (min-width: 1920px) and (max-width: 2099px) {
+            .hero-title {
+              font-size: 8.5rem !important;
+            }
+          }
+          @media (min-width: 2100px) {
             .hero-title {
               font-size: 10rem !important;
             }
@@ -394,6 +400,47 @@ export default function Home() {
           @media (min-width: 1200px) and (max-width: 1919px) {
             .hero-title {
               font-size: 7rem !important;
+            }
+          }
+          @media (max-width: 767px) {
+            .circular-text-hero {
+              display: none !important;
+            }
+          }
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .circular-text-hero {
+              width: 150px !important;
+              height: 150px !important;
+            }
+            .circular-text-hero span {
+              font-size: 14px !important;
+            }
+          }
+          @media (min-width: 1024px) and (max-width: 1279px) {
+            .circular-text-hero {
+              width: 160px !important;
+              height: 160px !important;
+            }
+            .circular-text-hero span {
+              font-size: 15px !important;
+            }
+          }
+          @media (min-width: 1280px) and (max-width: 1599px) {
+            .circular-text-hero {
+              width: 180px !important;
+              height: 180px !important;
+            }
+            .circular-text-hero span {
+              font-size: 16px !important;
+            }
+          }
+          @media (min-width: 1600px) {
+            .circular-text-hero {
+              width: 200px !important;
+              height: 200px !important;
+            }
+            .circular-text-hero span {
+              font-size: 18px !important;
             }
           }
         `}} />
@@ -469,6 +516,33 @@ export default function Home() {
             </p>
           </div>
         </div>
+        </div>
+
+        {/* Circular Text - Bottom Center */}
+        <div 
+          className="hidden md:block absolute bottom-8 lg:bottom-12 xl:bottom-16 left-1/2 transform -translate-x-1/2 z-10 cursor-pointer"
+          onClick={() => {
+            const worksSection = document.getElementById('works');
+            if (worksSection && lenisRef.current) {
+              lenisRef.current.scrollTo(worksSection, {
+                offset: 0,
+                duration: 0.5,
+                easing: (t) => {
+                  // Smooth ease-out cubic bezier
+                  return 1 - Math.pow(1 - t, 3);
+                },
+                lerp: 0.08
+              });
+            } else if (worksSection) {
+              worksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }}
+        >
+          <CircularText 
+            text="CLICK HERE • CLICK HERE • " 
+            spinDuration={20}
+            className="circular-text-hero"
+          />
         </div>
       </section>
 

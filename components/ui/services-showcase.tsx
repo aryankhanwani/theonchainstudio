@@ -77,7 +77,7 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
           </h2>
           
           {/* Fixed Image below title */}
-          <div className="w-full sm:w-full md:w-full lg:w-[300px] xl:w-[350px] 2xl:w-[400px]">
+          <div className="w-full sm:w-full md:w-full lg:w-[450px] xl:w-[500px] 2xl:w-[600px]">
             <AnimatePresence mode="wait">
               {hoveredIndex !== null && services[hoveredIndex] && (
                 <motion.div
@@ -97,7 +97,7 @@ const ServicesShowcase: React.FC<ServicesShowcaseProps> = ({ services }) => {
                     alt={services[hoveredIndex].title}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 300px, 400px"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 450px, 600px"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                 </motion.div>
