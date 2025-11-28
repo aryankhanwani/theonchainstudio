@@ -171,8 +171,11 @@ export default function Home() {
       {/* Hamburger Menu Button - Mobile Only */}
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="md:hidden absolute top-6 sm:top-8 right-5 sm:right-6 md:right-8 z-30 w-9 h-9 sm:w-10 sm:h-10 flex flex-col justify-center items-center gap-1.5"
+        className="md:hidden fixed top-6 sm:top-8 right-5 sm:right-6 md:right-8 z-[9998] w-9 h-9 sm:w-10 sm:h-10 flex flex-col justify-center items-center gap-1.5"
         aria-label="Toggle menu"
+        style={{
+          position: 'fixed',
+        }}
       >
         <span
           className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
@@ -193,10 +196,19 @@ export default function Home() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`md:hidden fixed inset-0 bg-black/95 z-20 transition-opacity duration-300 ${
+        className={`md:hidden fixed inset-0 bg-black/95 z-[9997] transition-opacity duration-300 ${
           isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsMenuOpen(false)}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+        }}
       >
         <nav className="flex flex-col items-center justify-center h-full gap-8">
           <a
