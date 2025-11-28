@@ -7,10 +7,9 @@ import LiquidEther from '@/components/LiquidEther';
 import { LetterSwapPingPong } from '@/components/ui/letter-swap';
 import { ServicesShowcase } from '@/components/ui/services-showcase';
 import { WorksSection } from '@/components/ui/works-section';
-import { AnimatedTextSection } from '@/components/ui/animated-text-section';
+import { AboutSection } from '@/components/ui/about-section';
 import { BookCallSection } from '@/components/ui/book-call-section';
 import Preloader from '@/components/Preloader';
-import CircularText from '@/components/CircularText';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,30 +23,49 @@ export default function Home() {
   const works = [
     // Landscape videos (wider, shorter) - 6 items
     { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '50+', info: 'Blockchain solutions delivered' }, height: 200 },
-    { id: 'video-1', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    // { id: 'video-1', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
     { id: 'image-1', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
     { id: 'image-2', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
     { id: 'image-3', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
     { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Clients', value: '100+', info: 'Global brands trust us' }, height: 200 },
-    { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
     { id: 'image-4', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
-    { id: 'image-5', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
+    { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
+    { id: 'image-5', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
+    // { id: 'image-6', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
     { id: 'stat-3', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Years', value: '5+', info: 'Leading web3 innovation' }, height: 200 },
   ];
 
   const services = [
-    { title: 'STRATEGIC', number: '01' },
-    { title: 'CONTENT & SOCIAL', number: '02' },
-    { title: 'Community Growth', number: '03' },
-    { title: 'EVENTS', number: '04' },
-    { title: 'PARTNERSHIPS & KOLS', number: '05' },
-    { title: 'BRANDING & CREATIVE', number: '06' },
-    { title: 'DEVELOPER RELATIONS', number: '07' },
-    { title: 'PR', number: '08' },
-    { title: 'Short-Form Video Content', number: '09' },
-    { title: 'TOKENOMICS CONSULTING', number: '10' },
-    { title: 'GROWTH MARKETING', number: '11' },
-    { title: 'ANALYTICS & INSIGHTS', number: '12' },
+    {
+      title: 'Founder Story & Brand Films',
+      description: 'A cinematic introduction to your story, your journey, and your mission. We bring out the clarity, confidence, and authenticity that only a well-crafted founder narrative can deliver.',
+      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2069'
+    },
+    {
+      title: 'Podcast Production',
+      description: 'From multi-camera setups to studio-grade audio and thoughtful editing, we handle your entire podcast experience end-to-end. You speak. We shape it into content that feels polished and effortless.',
+      image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071'
+    },
+    {
+      title: 'Event Glimpses',
+      description: 'Moments matter. We capture the energy, emotion, and essence of your event with elegance and speed. Your community should feel like they were there.',
+      image: 'https://images.unsplash.com/photo-1639322537504-6427a16b0a28?q=80&w=1932'
+    },
+    {
+      title: 'Explainers and Motion Graphics',
+      description: 'Complex products deserve simple, beautiful storytelling. We use clean visuals, human-focused motion design, and refined narration to make your technology easy to understand.',
+      image: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1932'
+    },
+    {
+      title: 'Talking Heads and Interviews',
+      description: 'Honest, sharp, founder-led videos that communicate updates, insights, and product messages with authority and personality.',
+      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2069'
+    },
+    {
+      title: 'Social-First Editing',
+      description: 'Short-form content designed to stop the scroll. Premium formatting, platform-specific cuts, and sharp pacing that drives attention across X, Instagram, TikTok, and YouTube Shorts.',
+      image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071'
+    },
   ];
 
   useEffect(() => {
@@ -124,7 +142,7 @@ export default function Home() {
               ease: [0.4, 0, 0.2, 1],
               delay: 0.1
             }}
-            className="relative w-full bg-black overflow-x-hidden"
+            className="relative w-full overflow-x-hidden"
             style={{
               transform: 'translateZ(0)',
               willChange: 'scroll-position',
@@ -132,8 +150,8 @@ export default function Home() {
               WebkitBackfaceVisibility: 'hidden',
             }}
           >
-      {/* LiquidEther Background */}
-      <div className="absolute inset-0 w-full h-full" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
+      {/* LiquidEther Background - Fixed to cover entire page */}
+      <div className="fixed inset-0 w-full h-full z-0" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
         <LiquidEther
           colors={['#FFFFFF', '#FFFFFF', '#FFFFFF']}
           mouseForce={18}
@@ -366,37 +384,27 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="relative h-auto md:min-h-screen w-full overflow-hidden">
+      <section id="home" className="relative h-auto md:min-h-screen w-full overflow-hidden z-10">
+        <style dangerouslySetInnerHTML={{__html: `
+          @media (min-width: 1920px) {
+            .hero-title {
+              font-size: 10rem !important;
+            }
+          }
+          @media (min-width: 1200px) and (max-width: 1919px) {
+            .hero-title {
+              font-size: 7rem !important;
+            }
+          }
+        `}} />
         {/* Hero Content */}
         <div className="relative z-10 flex h-auto md:min-h-screen items-start md:items-center justify-start px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 pt-32 sm:pt-36 md:pt-0 pb-12 md:pb-0">
         <div className="w-full max-w-7xl">
           {/* Main Hero Text */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-8 sm:mb-10 md:mb-8 font-sans">
+          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[7rem] 2xl:text-[10rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-8 sm:mb-10 md:mb-8 font-sans">
             <div className="block mb-2 sm:mb-3">BRINGING</div>
             <div className="block mb-2 sm:mb-3">THE CREATIVITY</div>
-            {/* Desktop: Video inline with ONCHAIN */}
-            <div className="hidden md:flex items-center gap-4 md:gap-6 lg:gap-8 whitespace-nowrap">
-              <span className="block">ONCHAIN</span>
-              <div className="relative w-32 h-20 md:w-48 md:h-28 lg:w-64 lg:h-40 shrink-0">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover rounded-lg"
-                  style={{
-                    transform: 'translateZ(0)',
-                    willChange: 'auto',
-                    backfaceVisibility: 'hidden',
-                    WebkitBackfaceVisibility: 'hidden',
-                  }}
-                >
-                  <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
-                </video>
-              </div>
-            </div>
-            {/* Mobile: ONCHAIN without video */}
-            <div className="block md:hidden">ONCHAIN</div>
+            <div className="block">ONCHAIN</div>
           </h1>
 
           {/* Mobile: Video below hero text */}
@@ -430,14 +438,25 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Desktop: CircularText - positioned at bottom right */}
+          {/* Desktop: Video - positioned at bottom right */}
           <div className="hidden md:block absolute bottom-8 lg:bottom-12 xl:bottom-16 right-8 lg:right-16 xl:right-24 z-10">
-            <CircularText
-              text="WEB3 * CREATIVE * BLOCKCHAIN * INNOVATION * "
-              onHover="goBonkers"
-              spinDuration={8}
-              className="text-white"
-            />
+            <div className="relative w-64 h-40 md:w-80 md:h-52 lg:w-96 lg:h-64 xl:w-[28rem] xl:h-[18rem] 2xl:w-[40rem] 2xl:h-[25rem]">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-lg"
+                style={{
+                  transform: 'translateZ(0)',
+                  willChange: 'auto',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                }}
+              >
+                <source src="https://fvkusemfgfntpxebubku.supabase.co/storage/v1/object/public/videos/IMG_0330-1.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
 
           {/* Desktop: Subtitle Text - positioned below navigation */}
@@ -456,7 +475,7 @@ export default function Home() {
       {/* What We Do Section */}
       <section
         id="services"
-        className="relative w-full bg-black"
+        className="relative w-full z-10"
       >
         <ServicesShowcase services={services} />
       </section>
@@ -464,25 +483,23 @@ export default function Home() {
       {/* Works Section */}
       <section
         id="works"
-        className="relative w-full bg-black"
+        className="relative w-full z-10"
       >
         <WorksSection works={works} />
       </section>
 
-      {/* Animated Text Section */}
+      {/* About Section */}
       <section
         id="about"
-        className="relative w-full bg-black"
+        className="relative w-full z-10"
       >
-        <AnimatedTextSection 
-          text="We are a creative studio specializing in blockchain technology and web3 innovation. Our team combines technical expertise with artistic vision to build transformative digital experiences that push the boundaries of what's possible in the decentralized web."
-        />
+        <AboutSection />
       </section>
 
       {/* Book a Call Section */}
       <section
         id="start-project"
-        className="relative w-full"
+        className="relative w-full z-10"
       >
         <BookCallSection />
       </section>

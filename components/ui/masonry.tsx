@@ -268,24 +268,26 @@ const Masonry: React.FC<MasonryProps> = ({
 
     return items.map(child => {
 
-      const col = colHeights.indexOf(Math.min(...colHeights));
+      // Find column with minimum height for better distribution
+      const minHeight = Math.min(...colHeights);
+      const col = colHeights.indexOf(minHeight);
 
       const x = col * (columnWidth + gap);
 
       // Calculate height based on card type with mobile scaling
       let height = child.height;
       if (child.cardType === 'portrait') {
-        // Portrait: 9:16 aspect ratio (vertical video) - reduced size
-        height = columnWidth * (16 / 9) * 0.75 * mobileScale;
+        // Portrait: 9:16 aspect ratio (vertical video)
+        height = columnWidth * (16 / 9) * mobileScale;
       } else if (child.cardType === 'landscape') {
         // Landscape: 16:9 aspect ratio (horizontal video)
         height = columnWidth * (9 / 16) * mobileScale;
       } else if (child.cardType === 'square') {
-        // Square: small squares (smaller on mobile)
-        height = columnWidth * (isMobile ? 0.5 : 0.6);
+        // Square: 1:1 aspect ratio
+        height = columnWidth * mobileScale;
       } else {
-        // Default: use provided height
-        height = child.height / 2;
+        // Default: use provided height with scaling
+        height = (child.height / 2) * mobileScale;
       }
 
       const y = colHeights[col];
@@ -297,6 +299,23 @@ const Masonry: React.FC<MasonryProps> = ({
     });
 
   }, [columns, items, width]);
+
+  // Calculate container height based on tallest column
+  const containerHeight = useMemo(() => {
+    if (grid.length === 0) return 0;
+    const gap = columns <= 2 ? 12 : 16;
+    const colHeights = new Array(columns).fill(0);
+    
+    grid.forEach(item => {
+      // Determine which column this item is in
+      const col = Math.round(item.x / (item.w + gap));
+      if (col >= 0 && col < columns) {
+        colHeights[col] = Math.max(colHeights[col], item.y + item.h);
+      }
+    });
+    
+    return Math.max(...colHeights, 0) + gap;
+  }, [grid, columns]);
 
   const hasMounted = useRef(false);
 
@@ -481,7 +500,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
   return (
 
-    <div ref={containerRef} className="relative w-full" style={{ minHeight: '100vh' }}>
+    <div ref={containerRef} className="relative w-full" style={{ height: containerHeight || 'auto', minHeight: containerHeight > 0 ? containerHeight : '100vh' }}>
 
       {grid.map(item => (
 
@@ -491,9 +510,13 @@ const Masonry: React.FC<MasonryProps> = ({
 
           data-key={item.id}
 
-          className="absolute box-content cursor-pointer"
+          className="absolute cursor-pointer"
 
-          style={{ willChange: 'transform, width, height, opacity' }}
+          style={{ 
+            willChange: 'transform, width, height, opacity',
+            left: 0,
+            top: 0,
+          }}
 
           onClick={() => item.url && window.open(item.url, '_blank', 'noopener')}
 

@@ -12,14 +12,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [percentage, setPercentage] = useState(0);
   
   const texts = [
-    'Welcome',
-    'Building',
     'Creating',
+    'Crafting',
     'Innovating',
-    'Loading',
+    'Narrative',
+    'Storytelling',
   ];
 
-  const duration = 5000; // 5 seconds
+  const duration = 2000; // 2 seconds
 
   useEffect(() => {
     // Cycle through texts
