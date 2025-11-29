@@ -7,6 +7,7 @@ import LiquidEther from '@/components/LiquidEther';
 import { LetterSwapPingPong } from '@/components/ui/letter-swap';
 import { ServicesShowcase } from '@/components/ui/services-showcase';
 import { WorksSection } from '@/components/ui/works-section';
+import { CircularWorkSection } from '@/components/ui/circular-work-section';
 import { AboutSection } from '@/components/ui/about-section';
 import { BookCallSection } from '@/components/ui/book-call-section';
 import Preloader from '@/components/Preloader';
@@ -66,6 +67,44 @@ export default function Home() {
       title: 'Social-First Editing',
       description: 'Short-form content designed to stop the scroll. Premium formatting, platform-specific cuts, and sharp pacing that drives attention across X, Instagram, TikTok, and YouTube Shorts.',
       image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071'
+    },
+  ];
+
+  const circularGalleryItems = [
+    {
+      image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=2000&h=1000',
+      text: 'BRAND FILMS',
+      video: videoUrl
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&h=1000',
+      text: 'PODCAST PRODUCTION'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&h=1000',
+      text: 'EVENT COVERAGE'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&h=1000',
+      text: 'MOTION GRAPHICS',
+      video: videoUrl
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?q=80&w=2000&h=1000',
+      text: 'SOCIAL CONTENT'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?q=80&w=2000&h=1000',
+      text: 'PRODUCT SHOWCASE'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1579547621113-e4bb2a19bdd6?q=80&w=2000&h=1000',
+      text: 'CREATIVE DIRECTION'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&h=1000',
+      text: 'INTERVIEWS',
+      video: videoUrl
     },
   ];
 
@@ -560,6 +599,14 @@ export default function Home() {
         className="relative w-full z-10"
       >
         <WorksSection works={works} />
+      </section>
+
+      {/* Circular Gallery Showcase Section */}
+      <section
+        id="portfolio"
+        className="relative w-full z-10"
+      >
+        <CircularWorkSection items={circularGalleryItems} />
       </section>
 
       {/* About Section */}
