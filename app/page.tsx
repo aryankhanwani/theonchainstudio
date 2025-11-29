@@ -520,10 +520,10 @@ export default function Home() {
           {/* Mobile: Subtitle Text below video */}
           <div className="md:hidden mb-8 sm:mb-10">
             <p className="text-md sm:text-sm text-white/70 font-light leading-relaxed font-sans text-left">
-              We specialize in blockchain technology,
-              decentralized applications, and innovative
-              digital solutions that push the boundaries
-              of what's possible in the web3 space.
+              We transform founders, products, 
+              and ideas into beautiful, cinematic stories that 
+              inspire trust, elevate brand presence, 
+              and make complex concepts unmistakably clear.
             </p>
           </div>
 
@@ -551,10 +551,11 @@ export default function Home() {
           {/* Desktop: Subtitle Text - positioned below navigation */}
           <div className="hidden md:block absolute top-48 lg:top-56 xl:top-64 right-8 lg:right-16 xl:right-24 text-right max-w-md lg:max-w-lg xl:max-w-xl">
             <p className="text-base lg:text-lg xl:text-xl 2xl:text-2xl text-white/70 font-light leading-relaxed font-sans">
-              We specialize in blockchain technology,<br />
-              decentralized applications, and innovative<br />
-              digital solutions that push the boundaries<br />
-              of what's possible in the web3 space.
+              We transform founders, products, <br />
+              and ideas into beautiful, cinematic stories that <br />
+              inspire trust, elevate brand presence, <br />
+              and make complex concepts unmistakably clear.
+              
             </p>
           </div>
         </div>
