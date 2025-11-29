@@ -24,12 +24,12 @@ export default function Home() {
   // Fixed random order (shuffled once, stays the same)
   const works = [
     // Landscape videos (wider, shorter) - 6 items
-    { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '50+', info: 'Blockchain solutions delivered' }, height: 200 },
+    { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '100+', info: 'Projects Completed' }, height: 200 },
     // { id: 'video-1', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
     { id: 'image-1', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
     { id: 'image-2', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
     { id: 'image-3', type: 'image' as const, cardType: 'portrait' as const, img: '/image.png', height: 400 },
-    { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Clients', value: '100+', info: 'Global brands trust us' }, height: 200 },
+    { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Impressions', value: '2M+', info: 'Total Reach' }, height: 200 },
     { id: 'image-4', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
     { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: videoUrl, height: 800 },
     { id: 'image-5', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
@@ -210,6 +210,9 @@ export default function Home() {
           autoRampDuration={0.5}
         />
       </div>
+      
+      {/* Overlay to disable LiquidEther in showcase section */}
+      <div id="showcase-overlay" className="fixed inset-0 pointer-events-none z-[5]" style={{ display: 'none' }} />
 
       {/* Brand Name - Top Left */}
       <div className="absolute top-6 sm:top-8 md:top-16 left-5 sm:left-6 md:left-8 lg:left-16 xl:left-24 z-20">

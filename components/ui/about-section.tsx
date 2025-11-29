@@ -251,22 +251,21 @@ const AboutSection: React.FC = () => {
                 />
               </motion.div>
 
-              {/* Closing Signature - Enhanced cursive styling */}
+              {/* Closing Signature - Normal italic styling */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.7, delay: 2, ease: [0.4, 0, 0.2, 1] }}
                 className="pt-4 sm:pt-5 md:pt-6 space-y-2 sm:space-y-3"
               >
-                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white/90 font-light italic leading-[1.4] tracking-wide" style={{ fontFamily: '"Brush Script MT", "Lucida Handwriting", "Dancing Script", cursive' }}>
+                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white/90 font-light italic leading-[1.4] tracking-wide font-sans">
                   This is The Onchain Studio
                 </p>
                 <motion.p
                   initial={{ opacity: 0, y: 10 }}
                   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.7, delay: 2.2, ease: [0.4, 0, 0.2, 1] }}
-                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/70 font-light italic leading-[1.5] tracking-wide max-w-2xl"
-                  style={{ fontFamily: '"Brush Script MT", "Lucida Handwriting", "Dancing Script", cursive' }}
+                  className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/70 font-light italic leading-[1.5] tracking-wide max-w-2xl font-sans"
                 >
                   Where your vision becomes a story people care about.
                 </motion.p>
