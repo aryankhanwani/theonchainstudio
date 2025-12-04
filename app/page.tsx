@@ -490,7 +490,7 @@ export default function Home() {
         <div className="relative z-10 flex h-auto md:min-h-screen items-start md:items-center justify-start px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 pt-32 sm:pt-36 md:pt-0 pb-12 md:pb-0">
         <div className="w-full max-w-7xl">
           {/* Main Hero Text */}
-          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[7rem] xl:text-[7rem] 2xl:text-[10rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-8 sm:mb-10 md:mb-8 font-sans">
+          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[6rem] xl:text-[7rem] 2xl:text-[8rem] font-bold leading-[0.9] tracking-[-0.02em] text-white mb-8 sm:mb-10 md:mb-8 font-sans">
             <div className="block mb-2 sm:mb-3">BRINGING</div>
             <div className="block mb-2 sm:mb-3">THE CREATIVITY</div>
             <div className="block">ONCHAIN</div>
@@ -529,7 +529,7 @@ export default function Home() {
 
           {/* Desktop: Video - positioned at bottom right */}
           <div className="hidden md:block absolute bottom-8 lg:bottom-12 xl:bottom-16 right-8 lg:right-16 xl:right-24 z-10">
-            <div className="relative w-64 h-40 md:w-80 md:h-52 lg:w-96 lg:h-64 xl:w-[28rem] xl:h-[18rem] 2xl:w-[40rem] 2xl:h-[25rem]">
+            <div className="relative w-64 h-40 md:w-80 md:h-52 lg:w-96 lg:h-64 xl:w-[28rem] xl:h-[18rem] 2xl:w-[35rem] 2xl:h-[25rem]">
               <video
                 autoPlay
                 loop
