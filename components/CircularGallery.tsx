@@ -441,7 +441,7 @@ class Media {
 }
 
 interface AppConfig {
-  items?: { image: string; text: string }[];
+  items?: { image: string; text: string; video?: string }[];
   bend?: number;
   textColor?: string;
   borderRadius?: number;
@@ -477,9 +477,12 @@ class App {
   boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchUp!: () => void;
+  boundOnMouseMove!: (e: MouseEvent) => void;
+  boundOnMouseLeave!: () => void;
 
   isDown: boolean = false;
   start: number = 0;
+  hoveredMedia: Media | null = null;
 
   constructor(
     container: HTMLElement,
@@ -539,7 +542,7 @@ class App {
   }
 
   createMedias(
-    items: { image: string; text: string }[] | undefined,
+    items: { image: string; text: string; video?: string }[] | undefined,
     bend: number = 1,
     textColor: string,
     borderRadius: number,
@@ -640,6 +643,60 @@ class App {
     canvas.style.cursor = "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"120\" height=\"60\" viewBox=\"0 0 120 60\"><rect width=\"120\" height=\"60\" rx=\"30\" fill=\"black\" opacity=\"0.9\"/><rect width=\"118\" height=\"58\" x=\"1\" y=\"1\" rx=\"29\" fill=\"none\" stroke=\"white\" stroke-width=\"1\" opacity=\"0.3\"/><path d=\"M20 30 L28 24 M20 30 L28 36 M100 30 L92 24 M100 30 L92 36\" stroke=\"white\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><text x=\"60\" y=\"36\" font-family=\"sans-serif\" font-size=\"14\" font-weight=\"600\" fill=\"white\" text-anchor=\"middle\" letter-spacing=\"2\">DRAG</text></svg>') 60 30, auto";
   }
 
+  onMouseMove(e: MouseEvent) {
+    const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    // Convert mouse position to normalized device coordinates
+    const ndcX = (mouseX / rect.width) * 2 - 1;
+    const ndcY = -((mouseY / rect.height) * 2 - 1);
+    
+    // Convert NDC to world space
+    const worldX = ndcX * (this.viewport.width / 2);
+    const worldY = ndcY * (this.viewport.height / 2);
+    
+    let currentHovered: Media | null = null;
+    
+    // Check if hovering over any media
+    this.medias.forEach((media) => {
+      const planeX = media.plane.position.x;
+      const planeY = media.plane.position.y;
+      const halfWidth = media.plane.scale.x / 2;
+      const halfHeight = media.plane.scale.y / 2;
+      
+      // Check if mouse is within the plane bounds
+      const isHovering = 
+        worldX >= planeX - halfWidth &&
+        worldX <= planeX + halfWidth &&
+        worldY >= planeY - halfHeight &&
+        worldY <= planeY + halfHeight;
+      
+      if (isHovering) {
+        currentHovered = media;
+      }
+    });
+    
+    // Play video on hovered media, pause others
+    if (currentHovered !== this.hoveredMedia) {
+      if (this.hoveredMedia && this.hoveredMedia.videoElement) {
+        this.hoveredMedia.pauseVideo();
+      }
+      if (currentHovered && currentHovered.videoElement) {
+        currentHovered.playVideo();
+      }
+      this.hoveredMedia = currentHovered;
+    }
+  }
+
+  onMouseLeave() {
+    if (this.hoveredMedia && this.hoveredMedia.videoElement) {
+      this.hoveredMedia.pauseVideo();
+    }
+    this.hoveredMedia = null;
+  }
+
   onWheel(e: Event) {
     const wheelEvent = e as WheelEvent;
     const delta = wheelEvent.deltaY || (wheelEvent as any).wheelDelta || (wheelEvent as any).detail;
@@ -701,31 +758,11 @@ class App {
     window.addEventListener('touchend', this.boundOnTouchUp);
     
     // Add mousemove event to detect hover on cards
+    this.boundOnMouseMove = this.onMouseMove.bind(this);
+    this.boundOnMouseLeave = this.onMouseLeave.bind(this);
     const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
-    canvas.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      
-      // Check if hovering over any media
-      this.medias.forEach((media) => {
-        const planeX = media.plane.position.x;
-        const planeY = media.plane.position.y;
-        const halfWidth = media.plane.scale.x / 2;
-        const halfHeight = media.plane.scale.y / 2;
-        
-        // Simple bounding box check in screen space
-        const isHovering = 
-          Math.abs(planeX) < halfWidth &&
-          Math.abs(planeY - y * (this.viewport.height / 2)) < halfHeight;
-        
-        if (isHovering && media.videoElement) {
-          media.playVideo();
-        } else if (media.videoElement) {
-          media.pauseVideo();
-        }
-      });
-    });
+    canvas.addEventListener('mousemove', this.boundOnMouseMove);
+    canvas.addEventListener('mouseleave', this.boundOnMouseLeave);
   }
 
   destroy() {
@@ -739,6 +776,23 @@ class App {
     window.removeEventListener('touchstart', this.boundOnTouchDown);
     window.removeEventListener('touchmove', this.boundOnTouchMove);
     window.removeEventListener('touchend', this.boundOnTouchUp);
+    
+    // Remove hover event listeners
+    const canvas = this.renderer.gl.canvas as HTMLCanvasElement;
+    if (canvas) {
+      canvas.removeEventListener('mousemove', this.boundOnMouseMove);
+      canvas.removeEventListener('mouseleave', this.boundOnMouseLeave);
+    }
+    
+    // Pause all videos on destroy
+    if (this.medias) {
+      this.medias.forEach(media => {
+        if (media.videoElement) {
+          media.pauseVideo();
+        }
+      });
+    }
+    
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }
@@ -746,7 +800,7 @@ class App {
 }
 
 interface CircularGalleryProps {
-  items?: { image: string; text: string }[];
+  items?: { image: string; text: string; video?: string }[];
   bend?: number;
   textColor?: string;
   borderRadius?: number;
