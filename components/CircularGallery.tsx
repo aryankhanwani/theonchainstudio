@@ -660,7 +660,7 @@ class App {
     let currentHovered: Media | null = null;
     
     // Check if hovering over any media
-    this.medias.forEach((media) => {
+    for (const media of this.medias) {
       const planeX = media.plane.position.x;
       const planeY = media.plane.position.y;
       const halfWidth = media.plane.scale.x / 2;
@@ -675,8 +675,9 @@ class App {
       
       if (isHovering) {
         currentHovered = media;
+        break; // Only need the first hovered item
       }
-    });
+    }
     
     // Play video on hovered media, pause others
     if (currentHovered !== this.hoveredMedia) {
@@ -691,7 +692,7 @@ class App {
   }
 
   onMouseLeave() {
-    if (this.hoveredMedia && this.hoveredMedia.videoElement) {
+    if (this.hoveredMedia?.videoElement) {
       this.hoveredMedia.pauseVideo();
     }
     this.hoveredMedia = null;
