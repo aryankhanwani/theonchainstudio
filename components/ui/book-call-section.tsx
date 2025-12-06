@@ -6,9 +6,80 @@ import { motion } from "framer-motion"
 const BookCallSection: React.FC = () => {
   return (
     <section
-      className="relative w-full min-h-[70vh] bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden"
+      className="relative w-full min-h-[70vh] bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden section-container"
     >
-
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (min-width: 1500px) and (max-width: 1699px) {
+          .book-call-title {
+            font-size: 3.5rem !important;
+            line-height: 1.1 !important;
+          }
+          .book-call-subtitle {
+            font-size: 1.125rem !important;
+            line-height: 1.6 !important;
+          }
+          .book-call-button {
+            font-size: 0.875rem !important;
+            padding: 0.875rem 2rem !important;
+          }
+        }
+        @media (min-width: 1700px) and (max-width: 1919px) {
+          .book-call-title {
+            font-size: 4rem !important;
+            line-height: 1.1 !important;
+          }
+          .book-call-subtitle {
+            font-size: 1.25rem !important;
+            line-height: 1.6 !important;
+          }
+          .book-call-button {
+            font-size: 0.9375rem !important;
+            padding: 1rem 2.25rem !important;
+          }
+        }
+        @media (min-width: 1920px) and (max-width: 2099px) {
+          .book-call-title {
+            font-size: 4.5rem !important;
+            line-height: 1.1 !important;
+          }
+          .book-call-subtitle {
+            font-size: 1.375rem !important;
+            line-height: 1.6 !important;
+          }
+          .book-call-button {
+            font-size: 1rem !important;
+            padding: 1.125rem 2.5rem !important;
+          }
+        }
+        @media (min-width: 2100px) and (max-width: 2399px) {
+          .book-call-title {
+            font-size: 5rem !important;
+            line-height: 1.1 !important;
+          }
+          .book-call-subtitle {
+            font-size: 1.5rem !important;
+            line-height: 1.6 !important;
+          }
+          .book-call-button {
+            font-size: 1.0625rem !important;
+            padding: 1.25rem 2.75rem !important;
+          }
+        }
+        @media (min-width: 2400px) {
+          .book-call-title {
+            font-size: 5.5rem !important;
+            line-height: 1.1 !important;
+          }
+          .book-call-subtitle {
+            font-size: 1.625rem !important;
+            line-height: 1.6 !important;
+          }
+          .book-call-button {
+            font-size: 1.125rem !important;
+            padding: 1.375rem 3rem !important;
+          }
+        }
+      `}} />
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[70vh] px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 sm:py-20 md:py-24">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h2
@@ -16,7 +87,7 @@ const BookCallSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-white mb-6 sm:mb-8 md:mb-10 font-sans leading-tight tracking-tight text-center"
+            className="book-call-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-white mb-6 sm:mb-8 md:mb-10 font-sans leading-tight tracking-tight text-center"
           >
             GET YOUR
             <br />
@@ -28,7 +99,7 @@ const BookCallSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/70 font-light mb-10 sm:mb-12 md:mb-16 font-sans max-w-2xl mx-auto text-center"
+            className="book-call-subtitle text-base sm:text-lg md:text-xl lg:text-2xl text-white/70 font-light mb-10 sm:mb-12 md:mb-16 font-sans max-w-2xl mx-auto text-center"
           >
             Let's build something extraordinary together. Book a call to discuss your next web3 project.
           </motion.p>

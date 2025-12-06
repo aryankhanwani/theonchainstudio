@@ -83,15 +83,42 @@ const CircularWorkSection: React.FC<CircularWorkSectionProps> = ({ items }) => {
   return (
     <div 
       ref={sectionRef}
-      className="w-full pt-20 sm:pt-24 md:pt-28 lg:pt-32 xl:pt-24 pb-20 sm:pb-40 md:pb-48 lg:pb-56 xl:pb-64 overflow-hidden relative"
+      className="w-full pt-20 sm:pt-24 md:pt-28 lg:pt-32 xl:pt-24 pb-20 sm:pb-40 md:pb-48 lg:pb-56 xl:pb-64 overflow-hidden relative section-container"
     >
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (min-width: 1500px) and (max-width: 1699px) {
+          .showcase-title {
+            font-size: 1.75rem !important;
+          }
+        }
+        @media (min-width: 1700px) and (max-width: 1919px) {
+          .showcase-title {
+            font-size: 2rem !important;
+          }
+        }
+        @media (min-width: 1920px) and (max-width: 2099px) {
+          .showcase-title {
+            font-size: 2.125rem !important;
+          }
+        }
+        @media (min-width: 2100px) and (max-width: 2399px) {
+          .showcase-title {
+            font-size: 2.25rem !important;
+          }
+        }
+        @media (min-width: 2400px) {
+          .showcase-title {
+            font-size: 2.375rem !important;
+          }
+        }
+      `}} />
       {/* Title - Centered Above */}
       <div className="w-full px-5 sm:px-6 md:px-8 lg:px-16 xl:px-24 mb-8 sm:mb-10 md:mb-12 lg:mb-16">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white font-sans tracking-tight uppercase text-center"
+          className="showcase-title text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light text-white font-sans tracking-tight uppercase text-center"
         >
           SHOWCASE
         </motion.h2>
