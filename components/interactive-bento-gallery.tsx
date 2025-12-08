@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react';
 
-
 // MediaItemType defines the structure of a media item
 interface MediaItemType {
     id: number;
@@ -13,14 +12,18 @@ interface MediaItemType {
     url: string;
     span: string;
 }
+
 // MediaItem component renders either a video or image based on item.type
 const MediaItem = ({ item, className, onClick }: { item: MediaItemType, className?: string, onClick?: () => void }) => {
     const videoRef = useRef<HTMLVideoElement>(null); // Reference for video element
     const [isInView, setIsInView] = useState(false); // To track if video is in the viewport
+    const [shouldLoad, setShouldLoad] = useState(false); // To control when we actually attach the src
     const [isBuffering, setIsBuffering] = useState(true);  // To track if video is buffering
 
-    // Intersection Observer to detect if video is in view and play/pause accordingly
+    // Intersection Observer to detect if video is in view and trigger loading
     useEffect(() => {
+        if (!videoRef.current || typeof IntersectionObserver === "undefined") return;
+
         const options = {
             root: null,
             rootMargin: '50px',
@@ -29,66 +32,79 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                setIsInView(entry.isIntersecting); // Set isInView to true if the video is in view
+                if (entry.target === videoRef.current) {
+                    setIsInView(entry.isIntersecting);
+
+                    // Once a video has entered the viewport at least once,
+                    // we allow it to load.
+                    if (entry.isIntersecting) {
+                        setShouldLoad(true);
+                    }
+                }
             });
         }, options);
 
-        if (videoRef.current) {
-            observer.observe(videoRef.current); // Start observing the video element
-        }
+        observer.observe(videoRef.current);
 
         return () => {
-            if (videoRef.current) {
-                observer.unobserve(videoRef.current); // Clean up observer when component unmounts
-            }
+            observer.disconnect();
         };
     }, []);
+
     // Handle video play/pause based on whether the video is in view or not
     useEffect(() => {
-        let mounted = true;
+        const video = videoRef.current;
+        if (!video || !shouldLoad) return;
+
+        let cancelled = false;
 
         const handleVideoPlay = async () => {
-            if (!videoRef.current || !isInView || !mounted) return; // Don't play if video is not in view or component is unmounted
-
             try {
-                if (videoRef.current.readyState >= 3) {
+                if (!isInView) {
+                    video.pause();
+                    return;
+                }
+
+                setIsBuffering(true);
+
+                // If the video already has enough data
+                if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
                     setIsBuffering(false);
-                    await videoRef.current.play(); // Play the video if it's ready
-                } else {
-                    setIsBuffering(true);
-                    await new Promise((resolve) => {
-                        if (videoRef.current) {
-                            videoRef.current.oncanplay = resolve; // Wait until the video can start playing
-                        }
-                    });
-                    if (mounted) {
-                        setIsBuffering(false);
-                        await videoRef.current.play();
-                    }
+                    await video.play();
+                    return;
+                }
+
+                // Otherwise, wait until it can play
+                await new Promise<void>((resolve) => {
+                    const onCanPlay = () => {
+                        video.removeEventListener('canplay', onCanPlay);
+                        resolve();
+                    };
+                    video.addEventListener('canplay', onCanPlay);
+                });
+
+                if (!cancelled && isInView) {
+                    setIsBuffering(false);
+                    await video.play();
                 }
             } catch (error) {
                 console.warn("Video playback failed:", error);
+                setIsBuffering(false);
             }
         };
 
         if (isInView) {
             handleVideoPlay();
-        } else if (videoRef.current) {
-            videoRef.current.pause();
+        } else {
+            video.pause();
         }
 
         return () => {
-            mounted = false;
-            if (videoRef.current) {
-                videoRef.current.pause();
-                videoRef.current.removeAttribute('src');
-                videoRef.current.load();
-            }
+            cancelled = true;
         };
-    }, [isInView]);
+    }, [isInView, shouldLoad]);
 
     // Render either a video or image based on item.type
-
     if (item.type === 'video') {
         return (
             <div className={`${className} relative overflow-hidden`}>
@@ -99,7 +115,7 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
                     playsInline
                     muted
                     loop
-                    preload="auto"
+                    preload="none" // ⬅️ critical change: don't preload everything
                     style={{
                         opacity: isBuffering ? 0.8 : 1,
                         transition: 'opacity 0.2s',
@@ -107,9 +123,12 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
                         willChange: 'transform',
                     }}
                 >
-                    <source src={item.url} type="video/mp4" />
+                    {/* Only attach the source once we decide to load */}
+                    {shouldLoad && (
+                        <source src={item.url} type="video/mp4" />
+                    )}
                 </video>
-                {isBuffering && (
+                {isBuffering && shouldLoad && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/10">
                         <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     </div>
@@ -130,8 +149,6 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
     );
 };
 
-
-
 // GalleryModal component displays the selected media item in a modal
 interface GalleryModalProps {
     selectedItem: MediaItemType;
@@ -140,6 +157,7 @@ interface GalleryModalProps {
     setSelectedItem: (item: MediaItemType | null) => void;
     mediaItems: MediaItemType[]; // List of media items to display in the modal
 }
+
 const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaItems }: GalleryModalProps) => {
     const [dockPosition, setDockPosition] = useState({ x: 0, y: 0 });  // Track the position of the dockable panel
 
@@ -159,7 +177,6 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                 }}
                 className="fixed inset-0 w-full min-h-screen sm:h-[90vh] md:h-[600px] backdrop-blur-lg 
                           rounded-none sm:rounded-lg md:rounded-xl overflow-hidden z-10"
-
             >
                 {/* Main Content */}
                 <div className="h-full flex flex-col">
@@ -213,7 +230,6 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                 >
                     <X className='w-3 h-3' />
                 </motion.button>
-
             </motion.div>
 
             {/* Draggable Dock */}
@@ -289,13 +305,10 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
     );
 };
 
-
-
 interface InteractiveBentoGalleryProps {
     mediaItems: MediaItemType[]
     title: string
     description: string
-
 }
 
 const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ mediaItems, title, description }) => {
@@ -417,6 +430,5 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
         </div>
     );
 };
-
 
 export default InteractiveBentoGallery

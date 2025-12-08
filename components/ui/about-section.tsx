@@ -385,7 +385,7 @@ const AboutSection: React.FC = () => {
                 }}
               >
                 <Image
-                  src="/image.png"
+                  src="/IMG_6276.PNG"
                   alt="The Onchain Studio"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"

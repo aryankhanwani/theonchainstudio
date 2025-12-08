@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     shortcut: '/IMG_6276.PNG',
     apple: '/IMG_6276.PNG',
   },
+  other: {
+    // Preconnect to Cloudflare CDN for faster asset loading
+    'link:preconnect': 'https://cdn.cloudflare.com',
+    'link:dns-prefetch': 'https://cdn.cloudflare.com',
+  },
 };
 
 export default function RootLayout({
@@ -29,6 +34,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://cdn.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.cloudflare.com" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
