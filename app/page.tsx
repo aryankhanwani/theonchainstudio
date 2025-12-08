@@ -19,34 +19,22 @@ export default function Home() {
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Helper function to get Vercel Blob URL
-  const getBlobUrl = (filename: string): string => {
-    const baseUrl = process.env.NEXT_PUBLIC_BLOB_STORAGE_URL || '';
-    if (baseUrl) {
-      const cleanBaseUrl = baseUrl.replace(/\/$/, '');
-      const encodedFilename = encodeURIComponent(filename);
-      return `${cleanBaseUrl}/${encodedFilename}`;
-    }
-    // Fallback to local path if blob URL not configured
-    return `/${filename}`;
-  };
-
-  // Hero video URL
-  const heroVideoUrl = getBlobUrl('IMG_0330-1.mp4');
+  // Hero video URL - using local file from public folder
+  const heroVideoUrl = '/IMG_0330-1.mp4';
 
   // Fixed random order (shuffled once, stays the same)
   const works = [
     // Landscape videos (wider, shorter) - 6 items
     { id: 'stat-1', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Projects', value: '100+', info: 'Projects Completed' }, height: 200 },
     // { id: 'video-1', type: 'video' as const, cardType: 'landscape' as const, videoUrl: heroVideoUrl, height: 800 },
-    { id: 'image-1', type: 'video' as const, cardType: 'portrait' as const, videoUrl: getBlobUrl('yellow-allinone-ecosystem-v3-portrait.mp4'), height: 400 },
-    { id: 'video-3', type: 'video' as const, cardType: 'landscape' as const, videoUrl: getBlobUrl('1Inch x Yellow Media.mp4'), height: 800 },
-    { id: 'image-3', type: 'image' as const, cardType: 'portrait' as const, img: getBlobUrl('IMG_4874.PNG'), height: 400 },
+    { id: 'image-1', type: 'video' as const, cardType: 'portrait' as const, videoUrl: '/yellow-allinone-ecosystem-v3-portrait.mp4', height: 400 },
+    { id: 'video-3', type: 'video' as const, cardType: 'landscape' as const, videoUrl: '/1Inch x Yellow Media.mp4', height: 800 },
+    { id: 'image-3', type: 'image' as const, cardType: 'portrait' as const, img: '/IMG_6276.PNG', height: 400 },
     { id: 'stat-2', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Impressions', value: '2M+', info: 'Total Reach' }, height: 200 },
-    { id: 'video-4', type: 'image' as const, cardType: 'landscape' as const, img: getBlobUrl('Thumbnail-YT.jpg'), height: 800 },
+    { id: 'video-4', type: 'image' as const, cardType: 'landscape' as const, img: '/delorean-thumbnail.png', height: 800 },
     // { id: 'image-4', type: 'image' as const, cardType: 'landscape' as const, img: '/delorean-thumbnail.png', height: 800 },
-    { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: getBlobUrl('bitget-video.mp4'), height: 800 },
-    { id: 'image-5', type: 'image' as const, cardType: 'landscape' as const, img: getBlobUrl('Conquestapr.png'), height: 800 },
+    { id: 'video-2', type: 'video' as const, cardType: 'landscape' as const, videoUrl: '/bitget-video.mp4', height: 800 },
+    { id: 'image-5', type: 'image' as const, cardType: 'landscape' as const, img: '/Conquesta pr.png', height: 800 },
     // { id: 'image-6', type: 'image' as const, cardType: 'landscape' as const, img: '/image.png', height: 800 },
     { id: 'stat-3', type: 'stat' as const, cardType: 'square' as const, statData: { label: 'Years', value: '5+', info: 'Leading web3 innovation' }, height: 200 },
   ];
@@ -86,33 +74,33 @@ export default function Home() {
 
   const circularGalleryItems = [
     {
-      image: getBlobUrl('bitget-podcast.png'),
+      image: '/bitget-podcast.png',
       text: 'BITGET PODCAST',
-      video: getBlobUrl('bitget-video.mp4')
+      video: '/bitget-video.mp4'
     },
     {
-      image: getBlobUrl('delorean-thumbnail.png'),
+      image: '/delorean-thumbnail.png',
       text: 'DELOREAN',
-      video: getBlobUrl('1080horizontal.mp4')
+      video: '/1080horizontal.mp4'
     },
     {
-      image: getBlobUrl('Cilliz.png'),
+      image: '/Cilliz.png',
       text: 'CILLIZ',
     },
     {
-      image: getBlobUrl('Conquestapr.png'),
+      image: '/Conquesta pr.png',
       text: 'CONQUESTA',
-      video: getBlobUrl('1Inch x Yellow Media.mp4')
+      video: '/1Inch x Yellow Media.mp4'
     },
     {
-      image: getBlobUrl('bitget-podcast.png'),
+      image: '/bitget-podcast.png',
       text: 'UNPLUGGED',
-      video: getBlobUrl('Unplugged with NEIL TRAILER.mp4')
+      video: '/Unplugged with NEIL TRAILER.mp4'
     },
     {
-      image: getBlobUrl('delorean-thumbnail.png'),
+      image: '/delorean-thumbnail.png',
       text: 'BRAND FILMS',
-      video: getBlobUrl('1080horizontal.mp4')
+      video: '/1080horizontal.mp4'
     },
   ];
 
